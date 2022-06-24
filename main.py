@@ -1,31 +1,23 @@
+from distutils.sysconfig import PREFIX
 import discord
-import os
-# load our local env so we dont have the token in public
-from dotenv import load_dotenv
 from discord.ext import commands
+import os
+from dotenv import load_dotenv
+
 
 
 load_dotenv()
-bot = commands.Bot(command_prefix='?')  # prefix our commands with '.'
-#this event will be called when the bot is ready to use 
-@bot.event
-async def on_ready():
-    bot.change_presence(activity=discord.Activity(name ="?Help", type = discord.ActivityType.watching))
-    print(f"{bot.user.name} - {bot.user.id}")
-    print('Jammies is ready!')
+bot = commands.Bot(command_prefix="?")
 
+initial_extensions = []
 
-#setting up the commands
-@bot.command()
-async def clear(ctx , amount = 100):
-    channel = ctx.message.channel
-    messages = []
+for filename in os.listdir('./cogs'):
+    if filename.endswith('.py'):
+        initial_extensions.append("cogs." + filename[:-3])
 
-    async for message in channel.history(limit=amount):
-        messages.append(message)
-
-    await channel.delete_messages(messages)
-    await ctx.send("Messages have been cleared")
-
+        
+if __name__ == "__main__":
+    for extension in initial_extensions:
+        bot.load_extension(extension)
 
 bot.run(os.getenv('TOKEN'))
