@@ -1,13 +1,16 @@
-from distutils.sysconfig import PREFIX
 import discord
 from discord.ext import commands
 import os
 from dotenv import load_dotenv
+from discord_ui import UI 
+ 
 
 
 
 load_dotenv()
-bot = commands.Bot(command_prefix="?")
+intense = discord.Intents(message = True, guilds=True, reactions=True, members=True, presences=True)
+bot = commands.Bot(command_prefix="?", intense = intense)
+UI = UI(bot)
 
 initial_extensions = []
 
