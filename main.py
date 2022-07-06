@@ -1,26 +1,29 @@
 import discord
-from discord.ext import commands
-import os
+import os 
 from dotenv import load_dotenv
-from discord_ui import UI 
- 
+from discord.ui import Button, View
+
+load_dotenv() 
+bot = discord.Bot(debug_guilds=[946701951771496508])
+
+@bot.event
+async def on_ready():
+    print(f"{bot.user} is ready and online!")
+    await bot.change_presence(activity=discord.Game(name="with your feelings"))
 
 
+"""@bot.slash_command() # Create a slash command
+async def button(ctx):
+    button = Button(label="example", style=discord.ButtonStyle.primary, emoji="😎")
+    view = View()
+    view.add_item(button)
+    await ctx.respond("Hi", view=view)"""
 
-load_dotenv()
-intense = discord.Intents(message = True, guilds=True, reactions=True, members=True, presences=True)
-bot = commands.Bot(command_prefix="?", intense = intense)
-UI = UI(bot)
-
-initial_extensions = []
 
 for filename in os.listdir('./cogs'):
     if filename.endswith('.py'):
-        initial_extensions.append("cogs." + filename[:-3])
-
-        
-if __name__ == "__main__":
-    for extension in initial_extensions:
-        bot.load_extension(extension)
+        bot.load_extension(f'cogs.{filename[:-3]}')
+        print(f"{filename} loaded")
 
 bot.run(os.getenv('TOKEN'))
+
