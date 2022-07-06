@@ -27,8 +27,8 @@ class Captcha(commands.Cog):
         else:
             await ctx.respond("Please chack your DM's", ephemeral = True)
 
-            image.write(captcha_text, "C:/Users/Arman/Desktop/Folders/programs/python/bots/jammies-bot-v2cd/cogs/captcha/captcha.png")
-            File_image = discord.File("C:/Users/Arman/Desktop/Folders/programs/python/bots/jammies-bot-v2cd/cogs/captcha/captcha.png", filename="captcha.png")
+            image.write(captcha_text, "captcha/captcha.png")
+            File_image = discord.File("captcha/captcha.png", filename="captcha.png")
             embed = discord.Embed(
                 title="Captcha",
                 description="""Please write the following captcha after you clicked the button\n \n 
